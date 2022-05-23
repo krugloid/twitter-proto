@@ -7,6 +7,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.proto.R
 import com.example.proto.databinding.FragmentFeedBinding
+import com.example.proto.extensions.bind
 import com.example.proto.extensions.initToolbar
 import com.example.proto.extensions.viewBinding
 import com.example.proto.ui.adapters.PostAdapter
@@ -35,6 +36,7 @@ class FeedFragment : Fragment(R.layout.fragment_feed) {
 
         binding.render()
         viewModel.connect()
+        viewModel.refresh()
     }
 
     private fun FragmentFeedBinding.render() {
@@ -44,12 +46,12 @@ class FeedFragment : Fragment(R.layout.fragment_feed) {
         newPostFAB.setOnClickListener {
             findNavController().navigate(FeedFragmentDirections.toAddOrEditPost())
         }
-
-        // TODO: let VM decide if the toolbar is to be shown depending on the current user
-        updateToolbar(false)
     }
 
-    private fun FeedViewModel.connect() { }
+    private fun FeedViewModel.connect() {
+        bind(postItems, adapter::submitList)
+        bind(isCurrentUser) { updateToolbar(it) }
+    }
 
     private fun updateToolbar(isCurrentUser: Boolean) {
         if (args.user != -1L && isCurrentUser) {
@@ -58,7 +60,7 @@ class FeedFragment : Fragment(R.layout.fragment_feed) {
                 menu = R.menu.user_feed,
                 actionId = R.id.refreshMenuItem
             ) {
-                // TODO: update needs_sync for all the posts
+                // TODO: update DB
             }
         } else if (args.user != -1L) {
             initToolbar(binding.toolbar)

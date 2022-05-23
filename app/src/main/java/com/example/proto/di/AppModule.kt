@@ -3,6 +3,8 @@ package com.example.proto.di
 import com.example.proto.ProtoApplication
 import com.example.proto.database.PostDao
 import com.example.proto.database.UserDao
+import com.example.proto.repository.DefaultProtoRepository
+import com.example.proto.repository.ProtoRepository
 import com.example.proto.ui.*
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -19,7 +21,8 @@ val appModule = module {
 
     viewModel<FeedViewModel> { (user: Long) ->
         DefaultFeedViewModel(
-            selectedUser = user
+            selectedUser = user,
+            repository = get()
         )
     }
     viewModel<PostDetailsViewModel> {
@@ -27,5 +30,12 @@ val appModule = module {
     }
     viewModel<AddOrEditPostViewModel> {
         DefaultAddOrEditPostViewModel()
+    }
+
+    single<ProtoRepository> {
+        DefaultProtoRepository(
+            userDao = get(),
+            postDao = get()
+        )
     }
 }
