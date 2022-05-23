@@ -8,5 +8,8 @@ import com.example.proto.model.Post
 interface PostDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addPost(post: Post)
+
+    @Query("UPDATE posts SET needs_sync = NOT needs_sync")
+    fun updateState()
 }
 

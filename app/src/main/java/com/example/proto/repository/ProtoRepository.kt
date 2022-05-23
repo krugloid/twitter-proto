@@ -18,6 +18,8 @@ interface ProtoRepository {
 
     val currentUser: Flow<User?>
     suspend fun fetchCurrentUser()
+
+    suspend fun updateSyncState()
 }
 
 @ExperimentalCoroutinesApi
@@ -41,5 +43,10 @@ class DefaultProtoRepository(
 
     override suspend fun fetchCurrentUser() = withLoading(isLoading) {
         currentUser.value = userDao.getCurrentUser()
+    }
+
+    override suspend fun updateSyncState() = withLoading(isLoading) {
+        postDao.updateState()
+        allPosts.value = userDao.getMyPosts()
     }
 }

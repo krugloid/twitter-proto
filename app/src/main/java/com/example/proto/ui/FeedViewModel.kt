@@ -21,6 +21,7 @@ abstract class FeedViewModel : ViewModel() {
     abstract val isCurrentUser: Flow<Boolean>
 
     abstract fun refresh()
+    abstract fun invalidateSyncState()
 }
 
 class DefaultFeedViewModel(
@@ -53,6 +54,14 @@ class DefaultFeedViewModel(
                 val currentUserSync = async { repository.fetchCurrentUser() }
 
                 awaitAll(postSync, currentUserSync)
+            }
+        }
+    }
+
+    override fun invalidateSyncState() {
+        viewModelScope.launchCoroutine {
+            withLoading(isLoading) {
+                repository.updateSyncState()
             }
         }
     }

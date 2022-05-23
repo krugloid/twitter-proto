@@ -60,7 +60,7 @@ class FeedFragment : Fragment(R.layout.fragment_feed) {
                 menu = R.menu.user_feed,
                 actionId = R.id.refreshMenuItem
             ) {
-                // TODO: update DB
+                viewModel.invalidateSyncState()
             }
         } else if (args.user != -1L) {
             initToolbar(binding.toolbar)
