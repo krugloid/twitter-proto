@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:paddingVertical="16dp"
+    android:paddingHorizontal="24dp">
+
+    <View
+        android:id="@+id/profileView"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/profile_icon_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/titleTextView" />
+
+    <TextView
+        android:id="@+id/profileTextView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:textColor="#ffffffff"
+        android:text="T"
+        android:gravity="center"
+        android:textSize="32sp"
+        app:layout_constraintBottom_toBottomOf="@id/profileView"
+        app:layout_constraintStart_toStartOf="@id/profileView"
+        app:layout_constraintEnd_toEndOf="@id/profileView"
+        app:layout_constraintTop_toTopOf="@id/profileView"
+        tools:text="T" />
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/bodyTextView"
+        app:layout_constraintStart_toEndOf="@+id/profileView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Title 1" />
+
+    <TextView
+        android:id="@+id/bodyTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/titleTextView"
+        app:layout_constraintBottom_toTopOf="@+id/dateTextView"
+        app:layout_constraintStart_toStartOf="@+id/titleTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Lorem ipsum" />
+
+    <TextView
+        android:id="@+id/dateTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bodyTextView"
+        tools:text="22/05/2022" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
