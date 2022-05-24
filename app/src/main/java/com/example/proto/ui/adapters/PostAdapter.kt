@@ -1,7 +1,9 @@
 package com.example.proto.ui.adapters
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -28,7 +30,8 @@ class PostAdapter(
                 titleTextView.text = item.title
                 bodyTextView.text = item.body
                 profileTextView.text = item.profileBadge
-                profileView.setBackgroundColor(item.color)
+                // TODO: take care of the button states
+                ViewCompat.setBackgroundTintList(profileView, ColorStateList.valueOf(item.color))
                 profileView.setOnClickListener {
                     onProfileClickListener.invoke(item.userId)
                 }

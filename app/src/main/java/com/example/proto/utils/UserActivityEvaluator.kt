@@ -6,7 +6,7 @@ interface UserActivityEvaluator {
     fun numberOfPostsToRange(value: Int): ActivityRange
 }
 
-class DefaultUserActivityEvaluator() : UserActivityEvaluator {
+class DefaultUserActivityEvaluator : UserActivityEvaluator {
     override fun numberOfPostsToRange(value: Int): ActivityRange =
         when (value) {
             in ActivityRange.HIGHEST.min..ActivityRange.HIGHEST.max -> ActivityRange.HIGHEST
