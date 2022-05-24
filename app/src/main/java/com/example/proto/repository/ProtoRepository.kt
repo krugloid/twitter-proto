@@ -3,6 +3,7 @@ package com.example.proto.repository
 import com.example.proto.database.PostDao
 import com.example.proto.database.UserDao
 import com.example.proto.extensions.withLoading
+import com.example.proto.model.Post
 import com.example.proto.model.User
 import com.example.proto.model.UserPosts
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -13,6 +14,8 @@ interface ProtoRepository {
     val isLoading: Flow<Boolean>
 
     val allPosts: Flow<List<UserPosts>>
+    val selectedPost: Flow<Post?>
+    suspend fun fetchPost(postId: Long)
     suspend fun fetchPosts()
     suspend fun fetchPostsByUser(userId: Long)
 
@@ -31,6 +34,7 @@ class DefaultProtoRepository(
     override val isLoading = MutableStateFlow(false)
 
     override val allPosts = MutableStateFlow<List<UserPosts>>(emptyList())
+    override val selectedPost = MutableStateFlow<Post?>(null)
     override val currentUser = MutableStateFlow<User?>(null)
 
     override suspend fun fetchPosts() = withLoading(isLoading) {
@@ -39,6 +43,10 @@ class DefaultProtoRepository(
 
     override suspend fun fetchPostsByUser(userId: Long) = withLoading(isLoading) {
         allPosts.value = userDao.getPostsByUser(userId)
+    }
+
+    override suspend fun fetchPost(postId: Long) = withLoading(isLoading) {
+        selectedPost.value = postDao.getPost(postId)
     }
 
     override suspend fun fetchCurrentUser() = withLoading(isLoading) {

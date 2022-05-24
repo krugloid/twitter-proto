@@ -31,8 +31,11 @@ val appModule = module {
             userActivityEvaluator = get()
         )
     }
-    viewModel<PostDetailsViewModel> {
-        DefaultPostDetailsViewModel()
+    viewModel<PostDetailsViewModel> { (pid: Long) ->
+        DefaultPostDetailsViewModel(
+            postId = pid,
+            repository = get()
+        )
     }
     viewModel<AddOrEditPostViewModel> {
         DefaultAddOrEditPostViewModel()
