@@ -1,6 +1,5 @@
 package com.example.proto.model
 
-import android.graphics.Color
 import androidx.room.Embedded
 import androidx.room.Relation
 import java.util.Locale
@@ -14,7 +13,7 @@ data class UserPosts(
     val posts: List<Post>
 )
 
-fun UserPosts.toUiModel() = posts.map {
+fun UserPosts.toUiModel(userProfileColor: Int) = posts.map {
     PostItem(
         postId = it.pid,
         title = it.title,
@@ -23,7 +22,6 @@ fun UserPosts.toUiModel() = posts.map {
         updatedAt = it.updatedAt,
         userId = user.uid,
         profileBadge = user.displayName.substring(0, 1).uppercase(Locale.getDefault()),
-        // TODO: create aka ProfileColorProvider to delegate calculations of the color basing on a number of user's posts
-        color = Color.CYAN
+        color = userProfileColor
     )
 }

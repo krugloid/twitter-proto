@@ -7,9 +7,7 @@ import com.example.proto.extensions.withLoading
 import com.example.proto.model.PostItem
 import com.example.proto.model.toUiModel
 import com.example.proto.repository.ProtoRepository
-import com.example.proto.utils.CoroutineViewModel
-import com.example.proto.utils.DefaultDispatcherProvider
-import com.example.proto.utils.DispatcherProvider
+import com.example.proto.utils.*
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
@@ -27,6 +25,7 @@ abstract class FeedViewModel : ViewModel() {
 class DefaultFeedViewModel(
     val selectedUser: Long,
     private val repository: ProtoRepository,
+    private val userActivityEvaluator: UserActivityEvaluator,
     override val dispatcherProvider: DispatcherProvider = DefaultDispatcherProvider()
 ) : FeedViewModel(), CoroutineViewModel {
 
@@ -36,8 +35,9 @@ class DefaultFeedViewModel(
     }
 
     override val postItems = repository.allPosts.map { posts ->
-        posts.flatMap { userPost ->
-            userPost.toUiModel()
+        posts.flatMap { userPosts ->
+            val userProfileColor = userActivityEvaluator.numberOfPostsToRange(userPosts.posts.size).color
+            userPosts.toUiModel(userProfileColor)
         }
     }
 

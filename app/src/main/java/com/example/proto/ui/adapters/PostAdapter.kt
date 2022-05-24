@@ -24,14 +24,17 @@ class PostAdapter(
 
     inner class PostViewHolder(private val binding: OnePostItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: PostItem) {
-            binding.titleTextView.text = item.title
-            binding.bodyTextView.text = item.body
-            binding.profileTextView.text = item.profileBadge
-            binding.profileView.setOnClickListener {
-                onProfileClickListener.invoke(item.userId)
-            }
-            binding.root.setOnClickListener {
-                onPostClickListener.invoke(item.postId)
+            with(binding) {
+                titleTextView.text = item.title
+                bodyTextView.text = item.body
+                profileTextView.text = item.profileBadge
+                profileView.setBackgroundColor(item.color)
+                profileView.setOnClickListener {
+                    onProfileClickListener.invoke(item.userId)
+                }
+                root.setOnClickListener {
+                    onPostClickListener.invoke(item.postId)
+                }
             }
         }
     }
