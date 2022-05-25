@@ -39,6 +39,7 @@ class PostAdapter(
                 root.setOnClickListener {
                     onPostClickListener.invoke(item.postId, item.userId)
                 }
+                // TODO: provide proper image rendering in the feed list too
             }
         }
     }

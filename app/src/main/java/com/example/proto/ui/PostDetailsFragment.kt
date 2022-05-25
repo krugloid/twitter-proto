@@ -6,6 +6,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import coil.load
 import com.example.proto.R
 import com.example.proto.databinding.FragmentPostDetailsBinding
 import com.example.proto.extensions.bind
@@ -37,6 +38,9 @@ class PostDetailsFragment : Fragment(R.layout.fragment_post_details) {
         bind(post) { post ->
             binding.titleTextView.text = post?.title
             binding.bodyTextView.text = post?.body
+            if (post?.image?.isNotEmpty() != false) {
+                binding.postImageView.load(post?.image)
+            }
         }
         bind(isCurrentUser) { updateToolbar(it) }
     }

@@ -6,13 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.example.proto.database.TestData.posts
-import com.example.proto.database.TestData.users
 import com.example.proto.model.Post
 import com.example.proto.model.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import java.util.*
 
 @Database(entities = [User::class, Post::class], version = 1, exportSchema = true)
 @TypeConverters(DateConverter::class)
@@ -57,45 +54,4 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
     }
-}
-
-// TODO: replace with the generated data
-object TestData {
-    val user1 = User(
-        name = "Anna",
-        displayName = "anna",
-        createdAt = Date()
-    )
-    val user2 = User(
-        name = "Ben",
-        displayName = "ben",
-        createdAt = Date()
-    )
-    val user3 = User(
-        name = "John",
-        displayName = "johnny",
-        createdAt = Date()
-    )
-    val post1 = Post(
-        title = "Post 1",
-        user = 1
-    )
-    val post2 = Post(
-        title = "Post 2",
-        user = 1
-    )
-    val post3 = Post(
-        title = "Post 3",
-        user = 2
-    )
-    val post4 = Post(
-        title = "Post 4",
-        user = 3
-    )
-    val post5 = Post(
-        title = "Post 5",
-        user = 2
-    )
-    val posts = listOf(post1, post2, post3, post4, post5)
-    val users = listOf(user1, user2, user3)
 }

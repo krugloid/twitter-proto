@@ -61,7 +61,8 @@ class DefaultProtoRepository(
                 title = title,
                 body = body,
                 updatedAt = Date(),
-                user = userId
+                user = userId,
+                image = ""
             )
             if (postId != -1L) {
                 newPost = newPost.copy(pid = postId)

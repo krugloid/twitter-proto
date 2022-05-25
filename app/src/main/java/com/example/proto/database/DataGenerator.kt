@@ -55,7 +55,7 @@ class DataGenerator {
                         Post(
                             title = randomString(),
                             body = WORD_POOL.substring(textFrom, textTo),
-                            image = null,
+                            image = randomImageOrIgnore(),
                             updatedAt = Date((START_TIME..END_TIME).random()),
                             user = kotlin.random.Random.nextInt(1, ACCOUNT_CNT).toLong()
                         )
@@ -71,4 +71,10 @@ class DataGenerator {
             .map(CHAR_POOL::get)
             .joinToString("")
 
+
+    private fun randomImageOrIgnore(): String {
+        if (kotlin.random.Random.nextInt(0, 100) % 4 != 0) return ""
+        val imageSize = kotlin.random.Random.nextInt(100, 201)
+        return "https://source.unsplash.com/user/c_v_r/${imageSize}x${imageSize}"
+    }
 }
