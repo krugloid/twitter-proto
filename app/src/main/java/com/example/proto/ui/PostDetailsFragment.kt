@@ -25,7 +25,7 @@ class PostDetailsFragment : Fragment(R.layout.fragment_post_details) {
 
         binding.render()
         viewModel.connect()
-        viewModel.fetchPost()
+        viewModel.refresh()
     }
 
     private fun FragmentPostDetailsBinding.render() {

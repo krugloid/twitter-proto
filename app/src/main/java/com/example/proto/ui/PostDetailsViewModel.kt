@@ -9,15 +9,18 @@ import com.example.proto.repository.ProtoRepository
 import com.example.proto.utils.CoroutineViewModel
 import com.example.proto.utils.DefaultDispatcherProvider
 import com.example.proto.utils.DispatcherProvider
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 abstract class PostDetailsViewModel : ViewModel() {
     abstract val isLoading: Flow<Boolean>
     abstract val isCurrentUser: Flow<Boolean>
     abstract val post: Flow<Post?>
 
-    abstract fun fetchPost()
+    abstract fun refresh()
 }
 
 class DefaultPostDetailsViewModel(
@@ -33,20 +36,15 @@ class DefaultPostDetailsViewModel(
             return@combine user.uid == post.user
         }
         false
-    }
+    }.distinctUntilChanged()
 
-    init {
+    override fun refresh() {
         viewModelScope.launchCoroutine {
             withLoading(isLoading) {
-                repository.fetchCurrentUser()
-            }
-        }
-    }
+                val currentUserSync = async { repository.fetchCurrentUser() }
+                val postSync = async { repository.fetchOrDiscardPost(postId) }
 
-    override fun fetchPost() {
-        viewModelScope.launchCoroutine {
-            withLoading(isLoading) {
-                repository.fetchPost(postId)
+                awaitAll(postSync, currentUserSync)
             }
         }
     }

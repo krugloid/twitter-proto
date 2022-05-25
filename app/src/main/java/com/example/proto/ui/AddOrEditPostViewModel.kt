@@ -26,11 +26,8 @@ class DefaultAddOrEditPostViewModel(
     override val post = repository.selectedPost
 
     override fun fetchPost() {
-        // it's a new post, nothing to obtain from the db
-        if (postId == -1L) return
-
         viewModelScope.launchCoroutine {
-            repository.fetchPost(postId)
+            repository.fetchOrDiscardPost(postId)
         }
     }
 

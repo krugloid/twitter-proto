@@ -32,7 +32,9 @@ class FeedFragment : Fragment(R.layout.fragment_feed) {
                 )
             },
             onProfileClickListener = {
-                findNavController().navigate(FeedFragmentDirections.toUserFeed(user = it))
+                if (args.user == -1L) {
+                    findNavController().navigate(FeedFragmentDirections.toUserFeed(user = it))
+                }
             }
         )
     }

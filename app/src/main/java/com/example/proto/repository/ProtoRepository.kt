@@ -16,7 +16,7 @@ interface ProtoRepository {
 
     val allPosts: Flow<List<UserPosts>>
     val selectedPost: Flow<Post?>
-    suspend fun fetchPost(postId: Long)
+    suspend fun fetchOrDiscardPost(postId: Long)
     suspend fun fetchPosts()
     suspend fun fetchPostsByUser(userId: Long)
     suspend fun addOrUpdatePost(postId: Long, title: String, body: String, userId: Long)
@@ -47,8 +47,12 @@ class DefaultProtoRepository(
         allPosts.value = userDao.getPostsByUser(userId)
     }
 
-    override suspend fun fetchPost(postId: Long) = withLoading(isLoading) {
-        selectedPost.value = postDao.getPost(postId)
+    override suspend fun fetchOrDiscardPost(postId: Long) = withLoading(isLoading) {
+        if (postId == -1L) {
+            selectedPost.value = null
+        } else {
+            selectedPost.value = postDao.getPost(postId)
+        }
     }
 
     override suspend fun addOrUpdatePost(postId: Long, title: String, body: String, userId: Long) =
