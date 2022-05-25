@@ -3,7 +3,7 @@ package com.example.proto.model
 import android.text.format.DateFormat
 import androidx.room.Embedded
 import androidx.room.Relation
-import java.util.Locale
+import java.util.*
 
 data class UserPosts(
     @Embedded val user: User,

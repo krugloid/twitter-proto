@@ -6,8 +6,8 @@ import com.example.proto.model.UserPosts
 
 @Dao
 interface UserDao {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun addUser(user: User)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun addUser(vararg user: User)
 
     @Query("UPDATE users SET is_current = 'TRUE' WHERE uid = :userId")
     fun updateCurrentUser(userId: Long)

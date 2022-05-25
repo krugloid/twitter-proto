@@ -12,6 +12,7 @@ import com.example.proto.model.Post
 import com.example.proto.model.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import java.util.*
 
 @Database(entities = [User::class, Post::class], version = 1, exportSchema = true)
 @TypeConverters(DateConverter::class)
@@ -25,13 +26,13 @@ abstract class AppDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: AppDatabase? = null
 
-        fun getDatabase(context: Context, scope: CoroutineScope): AppDatabase {
+        fun getDatabase(context: Context, scope: CoroutineScope, generator: DataGenerator): AppDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
                     "proto_database"
-                ).addCallback(DatabasePrepopulateCallback(scope))
+                ).addCallback(DatabasePrepopulateCallback(scope, generator))
                     .build()
 
                 INSTANCE = instance
@@ -40,19 +41,16 @@ abstract class AppDatabase : RoomDatabase() {
         }
     }
 
-    class DatabasePrepopulateCallback(private val scope: CoroutineScope) : RoomDatabase.Callback() {
+    class DatabasePrepopulateCallback(private val scope: CoroutineScope, private val generator: DataGenerator) : RoomDatabase.Callback() {
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
 
             INSTANCE?.let { appDatabase ->
                 scope.launch {
                     // populate db
-                    users.forEach {
-                        appDatabase.userDao().addUser(it)
-                    }
-                    posts.forEach {
-                        appDatabase.postDao().addPost(it)
-                    }
+                    appDatabase.userDao().addUser(*generator.generateUsers().toTypedArray())
+                    appDatabase.postDao().addPost(*generator.generatePosts().toTypedArray())
+
                     // FIXME: the ugly way to cache a current user
                     appDatabase.userDao().updateCurrentUser(1L)
                 }
@@ -65,15 +63,18 @@ abstract class AppDatabase : RoomDatabase() {
 object TestData {
     val user1 = User(
         name = "Anna",
-        displayName = "anna"
+        displayName = "anna",
+        createdAt = Date()
     )
     val user2 = User(
         name = "Ben",
-        displayName = "ben"
+        displayName = "ben",
+        createdAt = Date()
     )
     val user3 = User(
         name = "John",
-        displayName = "johnny"
+        displayName = "johnny",
+        createdAt = Date()
     )
     val post1 = Post(
         title = "Post 1",
