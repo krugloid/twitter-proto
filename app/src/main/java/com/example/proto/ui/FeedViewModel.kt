@@ -11,12 +11,17 @@ import com.example.proto.utils.*
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import java.lang.RuntimeException
 
 abstract class FeedViewModel : ViewModel() {
     abstract val isLoading: Flow<Boolean>
     abstract val postItems: Flow<List<PostItem>>
+
     abstract val isCurrentUser: Flow<Boolean>
+    abstract fun getCurrentUserId(): Long
 
     abstract fun refresh()
     abstract fun invalidateSyncState()
@@ -30,8 +35,15 @@ class DefaultFeedViewModel(
 ) : FeedViewModel(), CoroutineViewModel {
 
     override val isLoading = actionSharedFlow<Boolean>()
+
     override val isCurrentUser = repository.currentUser.map {
         it?.uid == selectedUser
+    }
+    override fun getCurrentUserId(): Long {
+        val user = repository.currentUser.stateIn(viewModelScope, SharingStarted.Eagerly, null).value
+            // FIXME: implement feedback in the UI
+            ?: throw RuntimeException("Something went wrong while identifying a current user")
+        return user.uid
     }
 
     override val postItems = repository.allPosts.map { posts ->

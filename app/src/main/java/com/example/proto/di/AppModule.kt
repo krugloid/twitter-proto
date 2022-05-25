@@ -37,8 +37,12 @@ val appModule = module {
             repository = get()
         )
     }
-    viewModel<AddOrEditPostViewModel> {
-        DefaultAddOrEditPostViewModel()
+    viewModel<AddOrEditPostViewModel> { (pid: Long, uid: Long) ->
+        DefaultAddOrEditPostViewModel(
+            postId = pid,
+            userId = uid,
+            repository = get()
+        )
     }
 
     single<ProtoRepository> {

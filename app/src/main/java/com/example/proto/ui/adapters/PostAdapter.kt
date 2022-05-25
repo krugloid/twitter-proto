@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.proto.databinding.OnePostItemBinding
 import com.example.proto.model.PostItem
 
-typealias PostClickListener = (Long) -> Unit
+typealias PostClickListener = (Long, Long) -> Unit
 typealias ProfileClickListener = (Long) -> Unit
 
 private val diffUtil = object : DiffUtil.ItemCallback<PostItem>() {
@@ -36,7 +36,7 @@ class PostAdapter(
                     onProfileClickListener.invoke(item.userId)
                 }
                 root.setOnClickListener {
-                    onPostClickListener.invoke(item.postId)
+                    onPostClickListener.invoke(item.postId, item.userId)
                 }
             }
         }

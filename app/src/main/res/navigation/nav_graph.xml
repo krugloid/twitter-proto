@@ -35,6 +35,10 @@
             android:name="post"
             app:argType="long"
             android:defaultValue="-1L" />
+        <argument
+            android:name="user"
+            app:argType="long"
+            android:defaultValue="-1L" />
         <action
             android:id="@+id/toAddOrEditPost"
             app:destination="@id/addOrEditPostFragment" />
@@ -46,6 +50,10 @@
         tools:layout="@layout/fragment_add_or_edit_post">
         <argument
             android:name="post"
+            app:argType="long"
+            android:defaultValue="-1L" />
+        <argument
+            android:name="user"
             app:argType="long"
             android:defaultValue="-1L" />
     </fragment>

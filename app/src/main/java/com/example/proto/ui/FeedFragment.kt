@@ -22,8 +22,13 @@ class FeedFragment : Fragment(R.layout.fragment_feed) {
 
     private val adapter by lazy {
         PostAdapter(
-            onPostClickListener = {
-                findNavController().navigate(FeedFragmentDirections.toPostDetails(post = it))
+            onPostClickListener = { pid, uid ->
+                findNavController().navigate(
+                    FeedFragmentDirections.toPostDetails(
+                        post = pid,
+                        user = uid,
+                    )
+                )
             },
             onProfileClickListener = {
                 findNavController().navigate(FeedFragmentDirections.toUserFeed(user = it))
@@ -44,7 +49,12 @@ class FeedFragment : Fragment(R.layout.fragment_feed) {
         recyclerView.adapter = adapter
 
         newPostFAB.setOnClickListener {
-            findNavController().navigate(FeedFragmentDirections.toAddOrEditPost())
+            findNavController().navigate(
+                FeedFragmentDirections.toAddOrEditPost(
+                    post = -1L,
+                    user = viewModel.getCurrentUserId()
+                )
+            )
         }
     }
 

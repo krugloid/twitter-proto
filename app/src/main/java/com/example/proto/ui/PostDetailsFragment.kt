@@ -17,7 +17,7 @@ class PostDetailsFragment : Fragment(R.layout.fragment_post_details) {
 
     private val binding by viewBinding(FragmentPostDetailsBinding::bind)
     private val args: PostDetailsFragmentArgs by navArgs()
-    private val viewModel: PostDetailsViewModel by viewModel { parametersOf(args.post) }
+    private val viewModel: PostDetailsViewModel by viewModel { parametersOf(args.post, args.user) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,8 +46,12 @@ class PostDetailsFragment : Fragment(R.layout.fragment_post_details) {
                 menu = R.menu.post_details,
                 actionId = R.id.editMenuItem
             ) {
-                findNavController()
-                    .navigate(PostDetailsFragmentDirections.toAddOrEditPost(post = args.post))
+                findNavController().navigate(
+                    PostDetailsFragmentDirections.toAddOrEditPost(
+                        post = args.post,
+                        user = args.user
+                    )
+                )
             }
         } else {
             initToolbar(binding.toolbar)
