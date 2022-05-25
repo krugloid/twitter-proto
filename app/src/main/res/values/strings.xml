@@ -1,5 +1,4 @@
 <resources>
-    <!-- TODO: support more than one language -->
     <string name="app_name">Proto</string>
     <string name="action_settings">Settings</string>
 

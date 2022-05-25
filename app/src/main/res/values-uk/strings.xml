@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Proto</string>
+    <string name="action_settings">Настройки</string>
+
+    <string name="feed_fragment_label">Що нового</string>
+    <string name="post_details_fragment_label">Пост</string>
+    <string name="add_post_fragment_label">Новий пост</string>
+    <string name="edit_post_fragment_label">Редагувати пост</string>
+
+    <string name="post_title_hint">Введіть назву</string>
+    <string name="post_body_hint">Що нового?</string>
+
+    <string name="menu_refresh">Оновити</string>
+    <string name="menu_edit">Редагувати</string>
+    <string name="menu_submit">Надіслати</string>
+
+</resources>
