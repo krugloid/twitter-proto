@@ -2,6 +2,7 @@ package com.example.proto.ui
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -59,6 +60,7 @@ class FeedFragment : Fragment(R.layout.fragment_feed) {
     }
 
     private fun FeedViewModel.connect() {
+        bind(isLoading) { binding.loading.isVisible = it }
         bind(postItems, adapter::submitList)
         bind(isCurrentUser) { updateToolbar(it) }
     }

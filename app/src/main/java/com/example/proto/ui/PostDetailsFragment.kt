@@ -2,6 +2,7 @@ package com.example.proto.ui
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -32,6 +33,7 @@ class PostDetailsFragment : Fragment(R.layout.fragment_post_details) {
     }
 
     private fun PostDetailsViewModel.connect() {
+        bind(isLoading) { binding.loading.isVisible = it }
         bind(post) { post ->
             binding.titleTextView.text = post?.title
             binding.bodyTextView.text = post?.body

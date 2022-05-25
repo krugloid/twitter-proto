@@ -22,7 +22,7 @@ class DataGenerator {
     }
 
     private val MAX_NAME_LENGTH = 10
-    private val MAX_POST_NUMBER = 200
+    private val MAX_POST_NUMBER = 300
     private val ACCOUNT_CNT = 50
     private val START_TIME= Date.from(ZonedDateTime.now().minusYears(5).toInstant()).time
     private val END_TIME = Date.from(ZonedDateTime.now().minusYears(1).toInstant()).time

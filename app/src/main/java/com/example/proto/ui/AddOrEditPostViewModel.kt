@@ -2,8 +2,6 @@ package com.example.proto.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.proto.extensions.actionSharedFlow
-import com.example.proto.extensions.withLoading
 import com.example.proto.model.Post
 import com.example.proto.repository.ProtoRepository
 import com.example.proto.utils.CoroutineViewModel
@@ -12,7 +10,6 @@ import com.example.proto.utils.DispatcherProvider
 import kotlinx.coroutines.flow.Flow
 
 abstract class AddOrEditPostViewModel : ViewModel() {
-    abstract val isLoading: Flow<Boolean>
     abstract val post: Flow<Post?>
 
     abstract fun fetchPost()
@@ -26,7 +23,6 @@ class DefaultAddOrEditPostViewModel(
     override val dispatcherProvider: DispatcherProvider = DefaultDispatcherProvider()
 ) : AddOrEditPostViewModel(), CoroutineViewModel {
 
-    override val isLoading = actionSharedFlow<Boolean>()
     override val post = repository.selectedPost
 
     override fun fetchPost() {
@@ -34,17 +30,13 @@ class DefaultAddOrEditPostViewModel(
         if (postId == -1L) return
 
         viewModelScope.launchCoroutine {
-            withLoading(isLoading) {
-                repository.fetchPost(postId)
-            }
+            repository.fetchPost(postId)
         }
     }
 
     override fun updatePost(newTitle: String, newBody: String) {
         viewModelScope.launchCoroutine {
-            withLoading(isLoading) {
-                repository.addOrUpdatePost(postId, newTitle, newBody, userId)
-            }
+            repository.addOrUpdatePost(postId, newTitle, newBody, userId)
         }
     }
 }
