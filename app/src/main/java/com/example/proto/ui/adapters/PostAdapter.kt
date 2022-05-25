@@ -29,6 +29,7 @@ class PostAdapter(
             with(binding) {
                 titleTextView.text = item.title
                 bodyTextView.text = item.body
+                dateTextView.text = item.updatedAt
                 profileTextView.text = item.profileBadge
                 // TODO: take care of the button states
                 ViewCompat.setBackgroundTintList(profileView, ColorStateList.valueOf(item.color))

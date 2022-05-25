@@ -1,5 +1,6 @@
 package com.example.proto.model
 
+import android.text.format.DateFormat
 import androidx.room.Embedded
 import androidx.room.Relation
 import java.util.Locale
@@ -19,7 +20,7 @@ fun UserPosts.toUiModel(userProfileColor: Int) = posts.map {
         title = it.title,
         body = it.body,
         image = it.image,
-        updatedAt = it.updatedAt,
+        updatedAt = DateFormat.format("dd.MM.yyyy hh:mm", it.updatedAt) as String,
         userId = user.uid,
         profileBadge = user.displayName.substring(0, 1).uppercase(Locale.getDefault()),
         color = userProfileColor

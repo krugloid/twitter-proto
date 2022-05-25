@@ -40,7 +40,7 @@ class AddOrEditPostFragment : Fragment(R.layout.fragment_add_or_edit_post) {
                 binding.bodyTextInputLayout.editText?.text.toString()
             )
             // TODO: add error/result handling to navigate backstack conditionally
-            findNavController().popBackStack(R.id.feedFragment, true)
+            findNavController().popBackStack(R.id.feedFragment, false)
         }
         if (args.post != -1L) {
             toolbar.title = getString(R.string.edit_post_fragment_label)

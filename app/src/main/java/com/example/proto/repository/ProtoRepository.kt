@@ -9,6 +9,7 @@ import com.example.proto.model.UserPosts
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import java.util.*
 
 interface ProtoRepository {
     val isLoading: Flow<Boolean>
@@ -55,6 +56,7 @@ class DefaultProtoRepository(
             var newPost = Post(
                 title = title,
                 body = body,
+                updatedAt = Date(),
                 user = userId
             )
             if (postId != -1L) {
